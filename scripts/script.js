@@ -93,14 +93,14 @@ const  getJSONData = async (url, method = "", data = {}) => {
 
     let config = {};
 
-    if(method === "GET"){
+    if(method === "GET" || method === "DELETE"){
         config = {
 
             method: method,
             headers: {
                 'Content-Type': 'application/json'    
             }
-            
+
         }
     }else if(method === "POST" || method === "PUT"){
         
@@ -111,12 +111,6 @@ const  getJSONData = async (url, method = "", data = {}) => {
             headers: {
                 'Content-Type': 'application/json'    
             }
-
-        }
-
-    }else if(method === "DELETE"){
-
-        config = {
 
         }
 
