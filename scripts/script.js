@@ -134,11 +134,3 @@ const  getJSONData = async (url, method = "", data = {}) => {
     }
     return result;
 }
-
-document.addEventListener("DOMContentLoaded", async () => {
-
-   
-
-});
-
- 
