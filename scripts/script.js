@@ -22,7 +22,7 @@ searchBtn.addEventListener("click", async () => {
 
         let mokapiUserUrl = `${mokapiUsersUrl}${searchInputValue}`;
 
-        const resultObj = await getJSONData(mokapiUserUrl)
+        const resultObj = await getJSONData(mokapiUserUrl, 'GET');
         if (resultObj.status === "ok"){
             users = resultObj;
             
@@ -33,7 +33,7 @@ searchBtn.addEventListener("click", async () => {
         }
 
     }else{
-        const resultObj = await getJSONData(mokapiUsersUrl)
+        const resultObj = await getJSONData(mokapiUsersUrl, 'GET');
         if (resultObj.status === "ok"){
             users = resultObj;
             showUsersList(users);  
@@ -88,11 +88,43 @@ const showUsersList = (arrayObj) =>{
 };
 
 
-const  getJSONData = async (url) => {
+const  getJSONData = async (url, method = "", data = {}) => {
     let result = {};
+
+    let config = {};
+
+    if(method === "GET"){
+        config = {
+
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'    
+            }
+            
+        }
+    }else if(method === "POST" || method === "PUT"){
+        
+        config = {
+
+            method: method,
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'    
+            }
+
+        }
+
+    }else if(method === "DELETE"){
+
+        config = {
+
+        }
+
+    }
+
     try{
       
-      const response = await fetch(url);
+      const response = await fetch(url, config);
   
       if (response.ok) {
         result = await response.json();
