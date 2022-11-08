@@ -212,3 +212,46 @@ inputLastname.addEventListener("input", ()=>{
     buttonSave.disabled = true;
   }
 });
+
+
+const Name = document.getElementById('inputPostNombre');
+const lastName = document.getElementById('inputPostApellido');
+const btnPost = document.getElementById('btnPost')
+
+lastName.addEventListener('input', ()=>{
+    let lastNameValue = lastName.value
+    let nameValue = Name.value
+    if (lastNameValue != "" && nameValue != ""){
+        btnPost.disabled = false
+    }
+    else{
+        btnPost.disabled = true
+    }
+})
+
+Name.addEventListener('input', ()=>{
+    let lastNameValue = lastName.value
+    let nameValue = Name.value
+    if (lastNameValue != "" && nameValue != ""){
+        btnPost.disabled = false
+    }
+    else{
+        btnPost.disabled = true
+    }
+})
+
+btnPost.addEventListener('click', async ()=>{
+let users = {};
+let lastNameValue = lastName.value
+let nameValue = Name.value
+
+const resultObj = await getJSONData(mokapiUsersUrl, 'POST', data = {lastNameValue,nameValue})
+if (resultObj.status === "ok") {
+    users = resultObj;
+    showUsersList(users);
+} else {
+    showErrorAlert();
+}
+
+
+})
