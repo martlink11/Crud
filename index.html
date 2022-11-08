@@ -43,7 +43,7 @@
                             <h6>Modificar registro</h6>
                             <input type="number" id="inputPutId" class="form-control"
                                 placeholder="ID del registro a modificar">
-                            <button id="btnPut" class="btn btn-warning position-absolute bottom-0 mb-3" disabled>
+                            <button id="btnPut" class="btn btn-warning position-absolute bottom-0 mb-3" data-bs-toggle="modal" data-bs-target="#dataModal" disabled>
                                 Modificar</button>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                     <input type="text" id="inputPutApellido" class="form-control my-1">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close">Cancelar</button>
                     <button type="button" class="btn btn-primary" id="btnSendChanges" disabled>Guardar</button>
                 </div>
             </div>

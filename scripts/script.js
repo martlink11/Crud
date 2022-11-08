@@ -3,6 +3,16 @@ const mokapiUsersUrl = `https://63651969046eddf1bae51995.mockapi.io/users/`
 const resultsList = document.getElementById("results");
 const searchInput = document.getElementById("inputGet1Id");
 const searchBtn = document.getElementById("btnGet1");
+const modifyBtn = document.getElementById("btnPut");
+const modifyInput = document.getElementById("inputPutId");
+const inputName = document.getElementById("inputPutNombre");
+const inputLastname = document.getElementById("inputPutApellido");
+let modifyTrue = false;
+const buttonSave = document.getElementById("btnSendChanges");
+let mokapiUserUrl = "";
+let users = {};
+const closeModal = document.getElementById("close");
+
 
 searchInput.addEventListener("input", () => {
 
@@ -14,23 +24,33 @@ searchInput.addEventListener("input", () => {
 
 searchBtn.addEventListener("click", async () => {
 
-    let users = {};
-
+    
     let searchInputValue = searchInput.value;
-
-    if(searchInputValue > 0){
-
-        let mokapiUserUrl = `${mokapiUsersUrl}${searchInputValue}`;
-
+    //console.log(modifyTrue)
+    if(searchInputValue > 0 || modifyTrue){
+      if (modifyTrue){
+       
+        mokapiUserUrl = `${mokapiUsersUrl}${modifyInput.value}`;
+      }else{
+        mokapiUserUrl = `${mokapiUsersUrl}${searchInputValue}`;
+      }
         const resultObj = await getJSONData(mokapiUserUrl, 'GET');
         if (resultObj.status === "ok"){
-            users = resultObj;
-            
+          users = resultObj;
+          if(modifyTrue){
+            let {name, lastname} = users;
+            inputName.value = name;
+            inputLastname.value = lastname;
+          }else{
             showUsersList(users);
+          }
+              
+            
         }else{
             showUsersList("clearList");
             showErrorAlert();
         }
+      
 
     }else{
         const resultObj = await getJSONData(mokapiUsersUrl, 'GET');
@@ -43,6 +63,8 @@ searchBtn.addEventListener("click", async () => {
     }
     
 });
+
+/*------------------------------------------------------------------------------------*/ 
 
 const showErrorAlert = () => {
     document.getElementById("alert-error").classList.add("show");
@@ -134,3 +156,59 @@ const  getJSONData = async (url, method = "", data = {}) => {
     }
     return result;
 }
+
+modifyBtn.addEventListener("click",  async () => {
+  modifyTrue = true;
+  searchBtn.click();
+
+})
+
+modifyInput.addEventListener("input", () => {
+
+  if(modifyInput.value !== ""){
+      modifyBtn.disabled = false;
+  } 
+  if(modifyInput.value <= 0){
+    modifyInput.value = "";
+    modifyBtn.disabled = true;
+  }
+
+});
+
+
+
+
+buttonSave.addEventListener("click", async () => {
+
+  if (inputName.value !== users.name){
+    users.name = inputName.value;
+  }
+  if(inputLastname.value !== users.lastname){
+    users.lastname = inputLastname.value;
+  }
+  const resultObj = await getJSONData(mokapiUserUrl, 'PUT', users);
+  if (resultObj.status === "ok"){
+    modifyTrue = false;
+    searchInput.value ="";
+    searchBtn.click();
+    closeModal.click();
+    buttonSave.disabled = true;
+  }
+ 
+});
+
+inputName.addEventListener("input", ()=>{
+  if (inputName.value !== users.name){
+    buttonSave.disabled = false;
+  } else {
+    buttonSave.disabled = true;
+  }
+});
+
+inputLastname.addEventListener("input", ()=>{
+  if(inputLastname.value !== users.lastname){
+    buttonSave.disabled = false;
+  }else {
+    buttonSave.disabled = true;
+  }
+});
