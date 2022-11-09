@@ -1,28 +1,28 @@
-#results {
+#results{
     min-height: 32rem;
 }
 
-#get-box {
+#get-box{
     height: 15rem;
     background-color: rgb(189, 215, 255);
 }
 
-#post-box {
+#post-box{
     height: 15rem;
     background-color: rgb(217, 255, 208);
 }
 
-#put-box {
+#put-box{
     height: 15rem;
     background-color: rgb(255, 238, 200);
 }
 
-#delete-box {
+#delete-box{
     height: 15rem;
     background-color: rgb(255, 210, 210);
 }
 
-.alert {
+.alert{
     position: fixed;
     top: 20px;
     width: 50%;
@@ -30,6 +30,11 @@
     transform: translate(-50%, 0);
 }
 
-main {
+main{
     min-height: calc(100vh - 210px);
-  }
+}
+
+#modalBtn{
+    position: absolute;
+    z-index: -1;
+}
