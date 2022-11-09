@@ -11,6 +11,10 @@ const closeModal = document.getElementById("close");
 const buttonSave = document.getElementById("btnSendChanges");
 const modal = document.getElementById("dataModal");
 const modalBtn = document.getElementById("modalBtn");
+const Name = document.getElementById('inputPostNombre');
+const lastName = document.getElementById('inputPostApellido');
+const btnPost = document.getElementById('btnPost');
+
 
 let modifyTrue = false;
 let mokapiUserUrl = "";
@@ -247,10 +251,6 @@ modalInputLastname.addEventListener("input", ()=>{
 
 /*-----------------------------------------------------------------------*/
 
-const Name = document.getElementById('inputPostNombre');
-const lastName = document.getElementById('inputPostApellido');
-const btnPost = document.getElementById('btnPost');
-
 lastName.addEventListener('input', ()=>{
 
   let lastNameValue = lastName.value;
@@ -278,14 +278,18 @@ Name.addEventListener('input', ()=>{
 });
 
 btnPost.addEventListener('click', async ()=>{
-  let users = {};
+  let NewUser = {};
   let lastNameValue = lastName.value;
   let nameValue = Name.value;
 
-  const resultObj = await getJSONData(mokapiUsersUrl, 'POST', data = {lastNameValue,nameValue})
+  NewUser.name = nameValue
+  NewUser.lastname = lastNameValue
+
+  const resultObj = await getJSONData(mokapiUsersUrl, 'POST', NewUser)
   if (resultObj.status === "ok") {
-    users = resultObj;
-    showUsersList(users);
+    modifyTrue = false
+    searchInput.value = "" ;
+    searchBtn.click();
   } else {
     showErrorAlert();
   }
