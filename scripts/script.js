@@ -131,6 +131,7 @@ const  getJSONData = async (url, method = "", data = {}) => {
   let config = {};
 
   if(method === "GET" || method === "DELETE"){
+
     config = {
 
       method: method,
@@ -139,6 +140,7 @@ const  getJSONData = async (url, method = "", data = {}) => {
       }
 
     }
+    
   }else if(method === "POST" || method === "PUT"){
         
     config = {
@@ -177,7 +179,7 @@ modifyBtn.addEventListener("click",  async () => {
   modifyTrue = true;
   searchBtn.click();
 
-})
+});
 
 modifyInput.addEventListener("input", () => {
 
@@ -202,7 +204,7 @@ closeModal.addEventListener("click", () => {
 
 buttonSave.addEventListener("click", async () => {
 
-  let newUserData = {}
+  let newUserData = {};
 
   if (modalInputName.value !== users.name){
     newUserData.name = modalInputName.value;
@@ -250,38 +252,42 @@ const lastName = document.getElementById('inputPostApellido');
 const btnPost = document.getElementById('btnPost');
 
 lastName.addEventListener('input', ()=>{
-    let lastNameValue = lastName.value;
-    let nameValue = Name.value;
-    if (lastNameValue != "" && nameValue != ""){
-        btnPost.disabled = false;
-    }
-    else{
-        btnPost.disabled = true;
-    }
+
+  let lastNameValue = lastName.value;
+  let nameValue = Name.value;
+
+  if (lastNameValue != "" && nameValue != ""){
+    btnPost.disabled = false;
+  }else{
+    btnPost.disabled = true;
+  }
+
 });
 
 Name.addEventListener('input', ()=>{
-    let lastNameValue = lastName.value;
-    let nameValue = Name.value;
-    if (lastNameValue != "" && nameValue != ""){
-        btnPost.disabled = false;
-    }
-    else{
-        btnPost.disabled = true;
-    }
+
+  let lastNameValue = lastName.value;
+  let nameValue = Name.value;
+
+  if (lastNameValue != "" && nameValue != ""){
+    btnPost.disabled = false;
+  }else{
+    btnPost.disabled = true;
+  }
+
 });
 
 btnPost.addEventListener('click', async ()=>{
-let users = {};
-let lastNameValue = lastName.value;
-let nameValue = Name.value;
+  let users = {};
+  let lastNameValue = lastName.value;
+  let nameValue = Name.value;
 
-const resultObj = await getJSONData(mokapiUsersUrl, 'POST', data = {lastNameValue,nameValue})
-if (resultObj.status === "ok") {
+  const resultObj = await getJSONData(mokapiUsersUrl, 'POST', data = {lastNameValue,nameValue})
+  if (resultObj.status === "ok") {
     users = resultObj;
     showUsersList(users);
-} else {
+  } else {
     showErrorAlert();
-}
+  }
 
 });
