@@ -20,6 +20,14 @@ let modifyTrue = false;
 let mokapiUserUrl = "";
 let users = {};
 
+const updateUsersList = () => {
+
+  modifyTrue = false;
+  searchInput.value = "";
+  searchBtn.click();
+
+};
+
 searchInput.addEventListener("input", () => {
 
   if(searchInput.value < 1){
@@ -220,9 +228,7 @@ buttonSave.addEventListener("click", async () => {
 
   const resultObj = await getJSONData(mokapiUserUrl, 'PUT', newUserData);
   if (resultObj.status === "ok"){
-    modifyTrue = false;
-    searchInput.value = "";
-    searchBtn.click();
+    updateUsersList();
     closeModal.click();
     buttonSave.disabled = true;
   }
@@ -287,9 +293,10 @@ btnPost.addEventListener('click', async ()=>{
 
   const resultObj = await getJSONData(mokapiUsersUrl, 'POST', NewUser)
   if (resultObj.status === "ok") {
-    modifyTrue = false
-    searchInput.value = "" ;
-    searchBtn.click();
+    Name.value = "";
+    lastName.value = "";
+    updateUsersList();
+    btnPost.disabled = true;
   } else {
     showErrorAlert();
   }
