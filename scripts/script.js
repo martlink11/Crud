@@ -302,3 +302,31 @@ btnPost.addEventListener('click', async ()=>{
   }
 
 });
+
+/*---------------------------------------------------------------------------*/
+
+const inputDelete = document.getElementById("inputDelete")
+const btnDelete = document.getElementById("btnDelete")
+
+inputDelete.addEventListener("input", () =>{
+  if (inputDelete.value>0){
+    btnDelete.disabled=false
+  }
+  else{
+    btnDelete.disabled=true
+  }
+})
+
+btnDelete.addEventListener("click", async ()=>{
+
+  let url = `${mokapiUsersUrl}${inputDelete.value}`
+  const resultObj = await getJSONData(url, "DELETE")
+
+  if (resultObj.status === "ok"){
+    inputDelete.value =""
+    updateUsersList();
+    btnDelete.disabled = true;
+  } else {
+    showErrorAlert();
+  }
+})
