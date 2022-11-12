@@ -3,6 +3,7 @@ const mokapiUsersUrl = `https://63651969046eddf1bae51995.mockapi.io/users/`
 const resultsList = document.getElementById("results");
 const searchInput = document.getElementById("inputGet1Id");
 const searchBtn = document.getElementById("btnGet1");
+
 const modifyBtn = document.getElementById("btnPut");
 const modifyInput = document.getElementById("inputPutId");
 const modalInputName = document.getElementById("inputPutNombre");
@@ -11,9 +12,13 @@ const closeModal = document.getElementById("close");
 const buttonSave = document.getElementById("btnSendChanges");
 const modal = document.getElementById("dataModal");
 const modalBtn = document.getElementById("modalBtn");
+
 const Name = document.getElementById('inputPostNombre');
 const lastName = document.getElementById('inputPostApellido');
 const btnPost = document.getElementById('btnPost');
+
+const inputDelete = document.getElementById("inputDelete");
+const btnDelete = document.getElementById("btnDelete");
 
 
 let modifyTrue = false;
@@ -27,6 +32,40 @@ const updateUsersList = () => {
   searchBtn.click();
 
 };
+
+const triggerEnter = (input1, btn, input2) => {
+
+  input1.addEventListener("keypress", (e) => {
+
+    if(e.key === "Enter"){
+
+      btn.click();
+
+    }
+
+  });
+
+  if(input2 !== undefined){
+
+    input2.addEventListener("keypress", (e) => {
+
+      if(e.key === "Enter"){
+  
+        btn.click();
+  
+      }
+  
+    });
+
+  }
+
+};
+
+triggerEnter(searchInput, searchBtn);
+triggerEnter(Name, btnPost , lastName);
+triggerEnter(modifyInput, modifyBtn);
+triggerEnter(modalInputName, buttonSave, modalInputLastname);
+triggerEnter(inputDelete, btnDelete);
 
 searchInput.addEventListener("input", () => {
 
@@ -73,7 +112,9 @@ searchBtn.addEventListener("click", async () => {
         modifyTrue = false;
       }
 
-      showUsersList("clearList");
+      //showUsersList("clearList");
+      
+      updateUsersList();
       showErrorAlert();
 
     }
@@ -305,28 +346,36 @@ btnPost.addEventListener('click', async ()=>{
 
 /*---------------------------------------------------------------------------*/
 
-const inputDelete = document.getElementById("inputDelete")
-const btnDelete = document.getElementById("btnDelete")
-
 inputDelete.addEventListener("input", () =>{
-  if (inputDelete.value>0){
-    btnDelete.disabled=false
-  }
-  else{
-    btnDelete.disabled=true
+
+  if (inputDelete.value > 0 ){
+
+    btnDelete.disabled = false;
+
+  }else{
+
+    inputDelete.value = "";
+    btnDelete.disabled = true;
+
   }
 })
 
 btnDelete.addEventListener("click", async ()=>{
 
-  let url = `${mokapiUsersUrl}${inputDelete.value}`
-  const resultObj = await getJSONData(url, "DELETE")
+  mokapiUserUrl = `${mokapiUsersUrl}${inputDelete.value}`;
+
+  const resultObj = await getJSONData(mokapiUserUrl, "DELETE");
 
   if (resultObj.status === "ok"){
-    inputDelete.value =""
+
+    inputDelete.value = "";
     updateUsersList();
     btnDelete.disabled = true;
-  } else {
+
+  }else{
+
     showErrorAlert();
+
   }
-})
+
+});
